@@ -20,8 +20,8 @@ func HandleQuery(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var params QueryParams
-	err := json.NewDecoder(r.Body).Decode(&params)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
