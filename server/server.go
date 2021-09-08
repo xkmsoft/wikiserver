@@ -18,6 +18,7 @@ const (
 
 type QueryParams struct {
 	Query string `json:"query"`
+	Page int `json:"page"`
 }
 
 type gzipResponseWriter struct {
@@ -67,7 +68,7 @@ func HandleQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := tcpclient.NewTCPClient(Ip, Port, Network)
-	clientResponse, err := client.Query(params.Query)
+	clientResponse, err := client.Query(params.Query, uint32(params.Page))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
